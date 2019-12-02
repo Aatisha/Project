@@ -1,0 +1,45 @@
+create table role_master
+(
+role_id int primary key not null identity,
+role_name varchar(50)
+)
+
+create table access_area
+(
+access_id int primary key not null identity,
+access_area_name varchar(50)
+)
+
+create table users
+(
+user_id int primary key identity,
+name varchar(50),
+mobile bigint unique,
+email varchar(50) unique,
+role_id int foreign key references role_master(role_id)
+)
+
+create table category_master
+(
+category_id int primary key not null identity,
+category_name varchar(50)
+)
+
+create table pass_transaction
+(
+pass_id int primary key not null identity,
+guest_name varchar(50),
+guest_mobile bigint,
+guest_email varchar(50),
+purpose_of_visit int foreign key references category_master(category_id),
+person_requested int foreign key references users(user_id),
+)
+
+create table pass_access_map
+(
+pass_access_map_id int primary key not null identity,
+pass_id int foreign key references pass_transaction(pass_id),
+access_id int foreign key references access_area(access_id)
+)
+
+alter table users add password varchar(50)
